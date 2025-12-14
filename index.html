@@ -259,156 +259,91 @@
             margin: 0 auto;
         }
 
-        /* ===== DESTINATIONS SECTION ===== */
-        .destinations {
-            background: var(--light);
-        }
+     /* ===== 3D BANNER SECTION STYLES ===== */
+@import url('https://fonts.cdnfonts.com/css/ica-rubrik-black');
 
-        .destination-item {
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    align-items: center;
-    gap: 2rem;
-    margin-bottom: 5rem;
-    position: relative;
-    padding-top: 3rem;
-    background: none !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    overflow: visible !important;
-    min-height: 400px;
-}
-
-.dest-svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 55px;
-}
-
-        .destination-item:nth-child(even) {
-            direction: ltr !important;
-        }
-
-        .destination-item:nth-child(even) > * {
-            direction: ltr;
-        }
-
-     .destination-image {
-    width: 100%;
-    height: 350px; 
-    object-fit: cover;
-    border-radius: 12px;
-}
-
-
-        .destination-content {
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .destination-content h3 {
-            font-size: 2rem;
-            color: var(--dark);
-            margin-bottom: 1rem;
-        }
-
-        .destination-content p {
-            font-size: 1.1rem;
-            color: var(--text);
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-        }
-
-        .explore-btn {
-            padding: 0.8rem 2rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            align-self: flex-start;
-            transition: all 0.3s;
-        }
-
-        .explore-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
-        }
-
-        @import url('https://fonts.cdnfonts.com/css/ica-rubrik-black');
-@import url('https://fonts.cdnfonts.com/css/poppins');
-
-/* NEW DESTINATION SECTION */
 #destinations {
     padding: 0;
     background: #D2D2D2;
-}
-
-.banner .content h4 {
-    font-size: 10rem;
-    font-weight: 800;
-    color: #1e293b;
-    text-align: center;
-    width: 100%;          /* FULL WIDTH → centers properly */
-    margin: 0 auto;       /* centers block element */
-    z-index: 5;
-    transform: translateY(-40px);
-    line-height: 1;
-}
-
-  
-h4{
-    padding-bottom: 200px;
-}
-
-/* GRID BACKGROUND */
-#destinations {
-    background-image:
-    repeating-linear-gradient(to right, transparent 0 100px, #25283b22 100px 101px),
-    repeating-linear-gradient(to bottom, transparent 0 100px, #25283b22 100px 101px);
-}
-
-.banner{
-    width: 100%;
     height: 100vh;
-    text-align: center;
     overflow: hidden;
     position: relative;
 }
 
-.banner .slider{
+#destinations .banner {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    position: relative;
+}
+
+/* The Rotating Slider */
+#destinations .slider {
     position: absolute;
     width: 200px;
     height: 250px;
-    top: 10%;
+    top: 15%; /* Adjusted slightly to fit with centered text */
     left: calc(50% - 100px);
     transform-style: preserve-3d;
     transform: perspective(1000px);
     animation: autoRun 20s linear infinite;
-    z-index: 2;
+    z-index: 1; /* Lower z-index so it stays BEHIND the text */
 }
 
-@keyframes autoRun{
-    from{ transform: perspective(1000px) rotateX(-16deg) rotateY(0deg); }
-    to{ transform: perspective(1000px) rotateX(-16deg) rotateY(360deg); }
+@keyframes autoRun {
+    from { transform: perspective(1000px) rotateX(-10deg) rotateY(0deg); }
+    to { transform: perspective(1000px) rotateX(-10deg) rotateY(360deg); }
 }
 
-.banner .slider .item{
+#destinations .slider .item {
     position: absolute;
     inset: 0 0 0 0;
-    transform:
-        rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-        translateZ(550px);
+    transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg)) translateZ(550px);
 }
 
-.banner .slider .item img{
+#destinations .slider .item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 10px; /* Added rounded corners for better look */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* The "Explore India" Text - CENTERED & VISIBLE */
+#destinations .content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* This perfectly centers the text */
+    z-index: 10; /* High z-index ensures it stays ON TOP of images */
+    width: 100%;
+    text-align: center;
+    pointer-events: none; /* Allows you to click through text if needed */
+}
+
+#destinations h1 {
+    font-family: 'ICA Rubrik', sans-serif;
+    font-size: clamp(4rem, 15vw, 13rem); /* Large responsive text */
+    color: #1e293b;
+    line-height: 1;
+    /* White glow to ensure it's readable even if dark images pass by */
+    text-shadow: 0 0 40px rgba(255, 255, 255, 0.9), 0 5px 10px rgba(0,0,0,0.1);
+}
+
+#destinations .model {
+    /* Optional model image background */
+    background-image: url('https://pngimg.com/d/travel_PNG97.png');
+    width: 100%;
+    height: 75vh;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-size: auto 100%;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    z-index: 2; /* Sits between slider and text */
+    pointer-events: none;
+    opacity: 0.8;
 }
 
 /* PARTICLES */
@@ -553,48 +488,110 @@ h4{
             font-weight: bold;
         }
 
-        /* ===== HOTELS SECTION ===== */
-         /* HOTELS SECTION FIXED */
-.hotels {
-  background: var(--light);
-  position: relative;
-  z-index: 2;
+        /* ===== VIDEO-STYLE SCROLLING HOTEL SECTION ===== */
+#hotels {
+    position: relative;
+    background: #f0f0f0; /* Light grey background like the video */
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
 }
 
-.hotels-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.8rem;
+/* Center Title Overlay */
+.section-title-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    text-align: center;
+    pointer-events: none; /* Allows hovering through text */
+    mix-blend-mode: difference; /* Cool blend effect over images */
+    color: white;
 }
 
-.hotel-card {
-  background: none !important;
-  border-radius: 0 !important;
-  overflow: visible !important;
-  box-shadow: none !important;
-  transition: none !important;
-  display: flex;
-  flex-direction: column;
+.section-title-overlay h2 {
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 800;
+    margin: 0;
+    text-transform: uppercase;
+    line-height: 1;
 }
 
-
-.hotel-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12);
+.section-title-overlay p {
+    font-size: 1rem;
+    letter-spacing: 2px;
+    margin-top: 10px;
+    font-weight: 600;
 }
 
-/* The MOST IMPORTANT FIX */
-.hotel-image {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  object-position: center;
+/* Gallery Container */
+.gallery-wrapper {
+    display: flex;
+    gap: 20px; /* Space between columns */
+    height: 120vh; /* Taller than screen to allow movement */
+    width: 100%;
+    max-width: 1400px;
+    justify-content: center;
+    transform: rotate(-3deg) scale(1.1); /* Slight tilt like artistic videos */
 }
 
-.hotel-content {
-  padding: 1.6rem;
+/* Columns */
+.hotel-col-scroll {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between images vertical */
+    width: 30%;
+    min-width: 250px;
 }
 
+/* Middle column offset styling */
+.hotel-col-scroll:nth-child(2) {
+    transform: translateY(-100px); /* Manual offset */
+}
+
+/* Individual Card */
+.hotel-card-vertical {
+    position: relative;
+    width: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+    flex-shrink: 0; /* Prevents squashing */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.hotel-card-vertical img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    filter: grayscale(100%); /* B&W by default like video */
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover Effects */
+.hotel-card-vertical:hover img {
+    filter: grayscale(0%); /* Color on hover */
+    transform: scale(1.05);
+}
+
+.card-details {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.hotel-card-vertical:hover .card-details {
+    opacity: 1;
+}
 
         /* ===== CONTACT SECTION ===== */
         .contact {
@@ -800,16 +797,16 @@ h4{
 <section id="destinations">
     <div class="banner">
         <div class="slider" style="--quantity: 10">
-            <div class="item" style="--position: 1"><img src="image1.jpeg" alt=""></div>
-            <div class="item" style="--position: 2"><img src="images2.jpeg" alt=""></div>
-            <div class="item" style="--position: 3"><img src="images3.jpeg" alt=""></div>
-            <div class="item" style="--position: 4"><img src="images4.jpeg" alt=""></div>
-            <div class="item" style="--position: 5"><img src="images5.jpeg" alt=""></div>
-            <div class="item" style="--position: 6"><img src="images6.jpeg" alt=""></div>
-            <div class="item" style="--position: 7"><img src="images7.jpeg" alt=""></div>
-            <div class="item" style="--position: 8"><img src="images8.jpeg" alt=""></div>
-            <div class="item" style="--position: 9"><img src="images9.jpeg" alt=""></div>
-            <div class="item" style="--position: 10"><img src="images10.jpeg" alt=""></div>
+            <div class="item" style="--position: 1"><img src="Dest1.jpeg" alt=""></div>
+            <div class="item" style="--position: 2"><img src="Dest2.jpeg" alt=""></div>
+            <div class="item" style="--position: 3"><img src="Dest3.jpeg" alt=""></div>
+            <div class="item" style="--position: 4"><img src="Dest4.jpeg" alt=""></div>
+            <div class="item" style="--position: 5"><img src="Dest5.jpeg" alt=""></div>
+            <div class="item" style="--position: 6"><img src="Dest6.jpeg" alt=""></div>
+            <div class="item" style="--position: 7"><img src="Dest7.jpeg" alt=""></div>
+            <div class="item" style="--position: 8"><img src="Dest8.jpeg" alt=""></div>
+            <div class="item" style="--position: 9"><img src="Dest9.jpeg" alt=""></div>
+            <div class="item" style="--position: 10"><img src="Dest10.jpeg" alt=""></div>
         </div>
 
         <!-- PARTICLES -->
@@ -940,85 +937,86 @@ h4{
             </div>
         </div>
     </section>
+    
+     <section id="hotels">
+    
 
-
-    <!-- HOTELS SECTION -->
-     <section class="hotels" id="hotels">
-  <div class="container">
-    <h2 class="section-title">Featured Hotels</h2>
-
-    <div class="hotels-grid">
-
-      <!-- Hotel 1 -->
-      <div class="hotel-card" data-hotel>
-        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800" class="hotel-image">
-        <div class="hotel-content">
-          <h3>City Center Hotel</h3>
-          <p class="hotel-location">📍 Mumbai</p>
-          <div class="hotel-rating">★★★★☆</div>
-          <p>Modern business hotel with easy access to major attractions.</p>
+    <div class="gallery-wrapper">
+        
+        <div class="hotel-col-scroll">
+            <div class="hotel-card-vertical">
+                <img src="Hotel1.jpeg" alt="Taj Lake Palace">
+                <div class="card-details">
+                    <h3>Taj Lake Palace</h3>
+                    <span>Udaipur</span>
+                </div>
+            </div>
+            <div class="hotel-card-vertical">
+                <img src="Hotel2.jpeg" alt="The Oberoi">
+                <div class="card-details">
+                    <h3>The Oberoi</h3>
+                    <span>New Delhi</span>
+                </div>
+            </div>
+            <div class="hotel-card-vertical">
+                <img src="Hotel3.jpeg" alt="The Leela">
+                <div class="card-details">
+                    <h3>The Leela</h3>
+                    <span>Goa</span>
+                </div>
+            </div>
         </div>
-      </div>
 
-      <!-- Hotel 2 -->
-      <div class="hotel-card" data-hotel>
-        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800" class="hotel-image">
-        <div class="hotel-content">
-          <h3>The Imperial Palace</h3>
-          <p class="hotel-location">📍 New Delhi</p>
-          <div class="hotel-rating">★★★★★</div>
-          <p>Luxury accommodation with world-class amenities and service.</p>
+        <div class="hotel-col-scroll">
+            <div class="hotel-card-vertical">
+                <img src="Hotel4.jpeg" alt="Wildflower Hall">
+                <div class="card-details">
+                    <h3>Wildflower Hall</h3>
+                    <span>Shimla</span>
+                </div>
+            </div>
+            <div class="hotel-card-vertical">
+                <img src="Hotel5.jpeg" alt="Rambagh Palace">
+                <div class="card-details">
+                    <h3>Rambagh Palace</h3>
+                    <span>Jaipur</span>
+                </div>
+            </div>
+            <div class="hotel-card-vertical">
+                <img src="Hotel6.jpeg" alt="Kumarakom Resort">
+                <div class="card-details">
+                    <h3>Kumarakom</h3>
+                    <span>Kerala</span>
+                </div>
+            </div>
         </div>
-      </div>
 
-      <!-- Hotel 3 -->
-      <div class="hotel-card" data-hotel>
-        <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800" class="hotel-image">
-        <div class="hotel-content">
-          <h3>Jaipur Heritage Resort</h3>
-          <p class="hotel-location">📍 Jaipur</p>
-          <div class="hotel-rating">★★★★★</div>
-          <p>Experience royal living in a beautifully restored heritage property.</p>
+        <div class="hotel-col-scroll">
+            <div class="hotel-card-vertical">
+                <img src="Hotel7.jpeg" alt="Taj Mahal Palace">
+                <div class="card-details">
+                    <h3>Taj Mahal Palace</h3>
+                    <span>Mumbai</span>
+                </div>
+            </div>
+            <div class="hotel-card-vertical">
+                <img src="Hotel8.jpeg" alt="Umaid Bhawan">
+                <div class="card-details">
+                    <h3>Umaid Bhawan</h3>
+                    <span>Jodhpur</span>
+                </div>
+            </div>
+            <div class="hotel-card-vertical">
+                <img src="Hotel9.jpeg" alt="Evolve Back">
+                <div class="card-details">
+                    <h3>Evolve Back</h3>
+                    <span>Coorg</span>
+                </div>
+            </div>
         </div>
-      </div>
-
-      <!-- Hotel 4 -->
-      <div class="hotel-card" data-hotel>
-        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800" class="hotel-image">
-        <div class="hotel-content">
-          <h3>Beach View Resort</h3>
-          <p class="hotel-location">📍 Goa</p>
-          <div class="hotel-rating">★★★★☆</div>
-          <p>Beachfront luxury with ocean views and private beach access.</p>
-        </div>
-      </div>
-
-      <!-- Hotel 5 -->
-      <div class="hotel-card" data-hotel>
-        <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800" class="hotel-image">
-        <div class="hotel-content">
-          <h3>Backwater Haven</h3>
-          <p class="hotel-location">📍 Kerala</p>
-          <div class="hotel-rating">★★★★★</div>
-          <p>Serene waterfront stay offering authentic Kerala hospitality.</p>
-        </div>
-      </div>
-
-      <!-- Hotel 6 -->
-      <div class="hotel-card" data-hotel>
-        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800" class="hotel-image">
-        <div class="hotel-content">
-          <h3>Mountain Retreat</h3>
-          <p class="hotel-location">📍 Shimla</p>
-          <div class="hotel-rating">★★★★☆</div>
-          <p>Cozy mountain lodge with panoramic Himalayan views.</p>
-        </div>
-      </div>
 
     </div>
-  </div>
 </section>
-
 
     <!-- CONTACT SECTION -->
     <section class="contact" id="contact">
@@ -1721,72 +1719,63 @@ document.querySelectorAll('.package-card').forEach(card => {
 
 });
 
+      // ═══════════════════════════════════════════════════════════════
+// 🏨 VIDEO STYLE INFINITE SCROLL LOGIC
 // ═══════════════════════════════════════════════════════════════
-// 🏨 HOTELS - LIQUID MORPH + DEPTH
-// ═══════════════════════════════════════════════════════════════
-// ============================================
-// HOTELS — 360° ENTRY + AR/VR MOTION EFFECT
-// ============================================
-gsap.utils.toArray('[data-hotel]').forEach((hotel, i) => {
+
+const columns = gsap.utils.toArray(".hotel-col-scroll");
+
+columns.forEach((col, i) => {
+    // 1. Clone items for infinite loop
+    const items = col.children;
+    const itemsArray = Array.from(items);
     
-    // 360 Entry Animation
-    gsap.from(hotel, {
-        opacity: 0,
-        rotationY: 360,
-        rotationX: 45,
-        z: -300,
-        scale: 0.4,
-        duration: 1.8,
-        delay: i * 0.15,
-        ease: "expo.out",
-        scrollTrigger: {
-            trigger: hotel,
-            start: "top 85%"
+    // Clone twice to ensure no empty spaces during scroll
+    itemsArray.forEach(item => {
+        const clone1 = item.cloneNode(true);
+        const clone2 = item.cloneNode(true);
+        col.appendChild(clone1);
+        col.appendChild(clone2);
+    });
+
+    // 2. Determine Direction (Odd columns UP, Even columns DOWN)
+    // Speed: 50 pixels per second approx
+    const speed = 1; 
+    const direction = i % 2 === 0 ? -1 : 1; // -1 = Up, 1 = Down
+    
+    // 3. Create the infinite scroll animation
+    const totalHeight = col.scrollHeight / 3; // divided by 3 because we cloned twice (original + 2 clones)
+    
+    // Set initial position for seamless loop
+    if (direction === 1) {
+        gsap.set(col, { y: -totalHeight });
+    }
+
+    const scrollAnim = gsap.to(col, {
+        y: direction === 1 ? 0 : -totalHeight,
+        duration: 20, // Adjust speed (higher = slower)
+        ease: "none",
+        repeat: -1,
+        modifiers: {
+            y: gsap.utils.unitize(y => parseFloat(y) % totalHeight)
         }
     });
 
-    // AR VR Motion Parallax Effect
-    hotel.addEventListener("mousemove", (e) => {
-        const rect = hotel.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-
-        gsap.to(hotel, {
-            rotationY: x * 25,
-            rotationX: -y * 25,
-            z: 60,
-            duration: 0.4,
-            ease: "power3.out"
-        });
-
-        gsap.to(hotel.querySelector('.hotel-image'), {
-            x: x * 30,
-            y: y * 30,
-            scale: 1.15,
-            duration: 0.4,
-            ease: "power2.out"
-        });
+    // 4. Hover to Pause Logic
+    // Apply listener to the wrapper to pause all columns or individual columns
+    // The video suggests pausing the whole experience or the specific item. 
+    // Let's pause the specific column for better UX.
+    
+    col.addEventListener("mouseenter", () => {
+        scrollAnim.pause();
+        gsap.to(col, { filter: "brightness(1.1)", duration: 0.3 });
     });
-
-    hotel.addEventListener("mouseleave", () => {
-        gsap.to(hotel, {
-            rotationY: 0,
-            rotationX: 0,
-            z: 0,
-            scale: 1,
-            duration: 1,
-            ease: "elastic.out(1, 0.4)"
-        });
-
-        gsap.to(hotel.querySelector('.hotel-image'), {
-            x: 0,
-            y: 0,
-            scale: 1,
-            duration: 0.8,
-            ease: "elastic.out(1, 0.5)"
-        });
+    
+    col.addEventListener("mouseleave", () => {
+        scrollAnim.play();
+        gsap.to(col, { filter: "brightness(1)", duration: 0.3 });
     });
-});
+});       
 
 // ═══════════════════════════════════════════════════════════════
 // 📧 CONTACT - GLASS CARD WITH RIPPLE
