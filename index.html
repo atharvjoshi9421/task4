@@ -35,6 +35,52 @@
             object-fit: cover;
         }
 
+       /* Hide default cursor only on Desktop */
+@media (min-width: 1025px) {
+    body {
+        cursor: none;
+    }
+
+    .cursor-dot {
+        width: 5px;  /* Smaller Dot */
+        height: 5px;
+        background-color: #2563eb;
+        position: fixed;
+        top: 0; left: 0;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        z-index: 99999;
+        pointer-events: none;
+    }
+
+    .cursor-outline {
+        width: 20px; /* Smaller Circle */
+        height: 20px;
+        border: 1px solid rgba(37, 99, 235, 0.5); /* Thinner border */
+        position: fixed;
+        top: 0; left: 0;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        z-index: 99998;
+        pointer-events: none;
+        transition: width 0.2s, height 0.2s, background-color 0.2s;
+    }
+
+    /* Hover State (Slight expansion) */
+    body.hovering .cursor-outline {
+        width: 35px; /* Expands slightly */
+        height: 35px;
+        background-color: rgba(37, 99, 235, 0.1);
+        border-color: transparent;
+    }
+}
+
+/* Hide custom cursor on Mobile/Tablet */
+@media (max-width: 1024px) {
+    .cursor-dot, .cursor-outline { display: none; }
+    body { cursor: auto; }
+}
+
         /* DESTINATION SECTION BG */
 #destination {
     background-color: #FFF7E6; /* warm cream */
@@ -536,7 +582,7 @@
     width: 100%;
     max-width: 1400px;
     justify-content: center;
-    transform: rotate(-3deg) scale(1.1); /* Slight tilt like artistic videos */
+    transform: rotate(-3deg) scale(1); /* Slight tilt like artistic videos */
 }
 
 /* Columns */
@@ -574,7 +620,7 @@
 /* Hover Effects */
 .hotel-card-vertical:hover img {
     filter: grayscale(0%); /* Color on hover */
-    transform: scale(1.05);
+    transform: scale(1.03);
 }
 
 .card-details {
@@ -739,9 +785,117 @@
                 width: 280px;
             }
         }
+
+        /* =========================================
+   RESPONSIVE MEDIA QUERIES
+   (Add this to the bottom of your CSS)
+   ========================================= */
+
+/* --- TABLET (768px - 1024px) --- */
+@media (max-width: 1024px) {
+    /* Adjust 3D Slider depth for tablets */
+    #destinations .slider .item {
+        transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg)) translateZ(400px);
+    }
+    
+    /* Adjust Hotel image height */
+    .hotel-col-scroll img {
+        height: 300px;
+    }
+}
+
+/* --- MOBILE (Max 768px) --- */
+@media (max-width: 768px) {
+    
+    /* 1. Mobile Navigation (Slide-in Menu) */
+    .nav-menu {
+        position: fixed;
+        top: 0; 
+        right: -100%; /* Hidden by default */
+        height: 100vh;
+        width: 80%;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        justify-content: center;
+        box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+        transition: right 0.4s ease;
+        z-index: 10000;
+    }
+    
+    .nav-menu.active { 
+        right: 0; /* Slide in */
+    }
+
+    .hamburger { 
+        display: flex; /* Show hamburger button */
+    }
+
+    /* 2. Hero Text Resize */
+    .hero-content h1 { 
+        font-size: 2.8rem; 
+        line-height: 1.2;
+    }
+    
+    /* 3. 3D Banner Mobile Adjustments (Prevents breaking) */
+    #destinations .slider {
+        width: 140px;
+        height: 200px;
+        left: calc(50% - 70px); /* Center perfectly */
+    }
+    
+    #destinations .slider .item {
+        /* Reduce Z depth significantly so images don't fly off screen */
+        transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg)) translateZ(280px);
+    }
+    
+    #destinations h1 { 
+        font-size: 4rem; 
+        white-space: normal; /* Allow wrapping */
+    }
+
+    /* 4. Packages: One card at a time */
+    .package-card {
+        width: 85vw; /* 85% of screen width */
+    }
+
+    /* 5. Hotels: Show only middle column for clean vertical scroll */
+    #hotels { height: 100vh; }
+    
+    .gallery-wrapper {
+        transform: rotate(0deg) scale(1); /* Remove tilt */
+        width: 100%;
+        gap: 10px;
+        padding: 0 10px;
+    }
+    
+    .hotel-col-scroll:first-child,
+    .hotel-col-scroll:last-child {
+        display: none; /* Hide side columns */
+    }
+    
+    .hotel-col-scroll:nth-child(2) {
+        width: 100%;
+        transform: none; /* Reset offset */
+    }
+    
+    .hotel-card-vertical img { 
+        height: 250px; 
+    }
+    
+    /* 6. Contact Form */
+    .contact-form { 
+        padding: 1.5rem; 
+        width: 100%;
+    }
+}
+
     </style>
 </head>
 <body>
+     <div class="cursor-dot"></div>
+     <div class="cursor-outline"></div>
+
     <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-container">
@@ -751,13 +905,13 @@
                     <a href="#home" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link" id="destinationsLink">Destinations ▾</a>
-                    <div class="dropdown-menu" id="dropdownMenu">
+                    <a class="nav-link " id="destinationsLink">Destinations ▾</a>
+                    <!-- <div class="dropdown-menu" id="dropdownMenu">
                         <a href="#destinations" class="dropdown-item">Delhi</a>
                         <a href="#destinations" class="dropdown-item">Jaipur</a>
                         <a href="#destinations" class="dropdown-item">Goa</a>
                         <a href="#destinations" class="dropdown-item">Kerala</a>
-                    </div>
+                    </div> -->
                 </li>
                 <li class="nav-item">
                     <a href="#packages" class="nav-link">Packages</a>
@@ -1391,6 +1545,25 @@ hamburger.addEventListener('click', () => {
     }
 });
 
+  // Mobile Menu Toggle
+const hamburger1 = document.getElementById('hamburger');
+const navMenu1 = document.getElementById('navMenu');
+const navLinks = document.querySelectorAll('.nav-link');
+
+// Toggle Menu
+hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navMenu.classList.toggle('active');
+});
+
+// Close menu when a link is clicked
+navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+    });
+}); 
+
 // ═══════════════════════════════════════════════════════════════
 // ✨ SCROLL-DRIVEN COLOR TRANSITIONS
 // ═══════════════════════════════════════════════════════════════
@@ -1682,7 +1855,7 @@ document.querySelectorAll('.package-card').forEach(card => {
     // Zoom-in hover
     card.addEventListener('mouseenter', () => {
         gsap.to(card, {
-            scale: 1.25,          // ← 25% ZOOM
+            scale: 1.05,          // ← 25% ZOOM
             zIndex: 999,
             rotationY: 5,
             rotationX: 5,
@@ -1989,6 +2162,44 @@ gsap.utils.toArray('img').forEach(img => {
             start: "top 95%",
             once: true
         }
+    });
+});
+     // --- Custom Cursor Animation ---
+const cursorDot = document.querySelector('.cursor-dot');
+const cursorOutline = document.querySelector('.cursor-outline');
+
+// 1. Movement Logic
+window.addEventListener('mousemove', (e) => {
+    const posX = e.clientX;
+    const posY = e.clientY;
+
+    // Dot moves instantly
+    cursorDot.style.left = `${posX}px`;
+    cursorDot.style.top = `${posY}px`;
+
+    // Outline follows with a lag (0.15s duration)
+    gsap.to(cursorOutline, {
+        x: posX,
+        y: posY,
+        duration: 0.15,
+        ease: "power2.out"
+    });
+});
+
+// 2. Hover Interaction
+const interactiveElements = document.querySelectorAll('a, button, .package-card, input, textarea');
+
+interactiveElements.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+        document.body.classList.add('hovering');
+        // Optional: Hide the small dot when hovering to keep it clean
+        gsap.to(cursorDot, { scale: 0, duration: 0.2 }); 
+    });
+    
+    el.addEventListener('mouseleave', () => {
+        document.body.classList.remove('hovering');
+        // Bring the dot back
+        gsap.to(cursorDot, { scale: 1, duration: 0.2 }); 
     });
 });
 
