@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore India - Premium Travel Experience</title>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         /* ===== RESET & BASE STYLES ===== */
         * {
@@ -359,12 +359,16 @@
 #destinations .content {
     position: absolute;
     top: 50%;
+    bottom: auto !important;
     left: 50%;
-    transform: translate(-50%, -50%); /* This perfectly centers the text */
+    transform: translate(-50%); /* This perfectly centers the text */
     z-index: 10; /* High z-index ensures it stays ON TOP of images */
     width: 100%;
     text-align: center;
     pointer-events: none; /* Allows you to click through text if needed */
+    display: block !important;
+    padding-bottom: 0 !important;
+    pointer-events: none;
 }
 
 #destinations h1 {
@@ -374,6 +378,15 @@
     line-height: 1;
     /* White glow to ensure it's readable even if dark images pass by */
     text-shadow: 0 0 40px rgba(255, 255, 255, 0.9), 0 5px 10px rgba(0,0,0,0.1);
+}
+
+#destinations .content h4 {
+    font-family: 'ICA Rubrik', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    color: #1e293b;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-shadow: 0 6px 20px rgba(0,0,0,0.15);
 }
 
 #destinations .model {
@@ -639,86 +652,137 @@
     opacity: 1;
 }
 
-        /* ===== CONTACT SECTION ===== */
-        .contact {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-        }
+/* ===== TRAVEL CARD / ENQUIRY SECTION (SEAMLESS) ===== */
+.travel-card-section {
+    padding: 5rem 2rem;
+    /* You can change this color to match your site theme, e.g., white or light gray */
+    background-color: #f8fafc; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-        .contact .section-title {
-            color: white;
-        }
+.info-card {
+    display: flex;
+    flex-direction: row;
+    /* REMOVED: background, border-radius, box-shadow */
+    max-width: 1200px;
+    width: 100%;
+    gap: 4rem; /* Adds space between image and text */
+    align-items: center; /* Vertically centers the content */
+}
 
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-        }
+.card-image {
+    flex: 1;
+    /* Optional: Rounded corners on the image itself looks nice */
+    border-radius: 20px; 
+    overflow: hidden;
+    height: 450px; /* Taller image looks better without the box */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1); /* Shadow only on the image */
+}
 
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
+.card-content {
+    flex: 1;
+    /* REMOVED: padding (no need for internal padding if there is no box) */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
 
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.9);
-            font-size: 1rem;
-            font-family: inherit;
-            transition: all 0.3s;
-        }
+/* Typography */
+.accent-line {
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #2563eb, #7c3aed);
+    margin-bottom: 1.5rem;
+    border-radius: 2px;
+}
 
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: white;
-            background: white;
-        }
+.card-content h3 {
+    font-size: 2.2rem;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: #1e293b;
+}
 
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
+.card-content h3 span {
+    color: #2563eb;
+}
 
-        .submit-btn {
-            width: 100%;
-            padding: 1rem;
-            background: white;
-            color: var(--primary);
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+.card-content p {
+    color: #64748b;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
 
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
+.card-small-text {
+    font-weight: 600;
+    color: #334155 !important;
+    font-style: italic;
+}
 
-        .success-message {
-            display: none;
-            margin-top: 1rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            text-align: center;
-        }
+/* Actions */
+.card-actions {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-top: 1.5rem;
+}
+
+.enquiry-btn {
+    padding: 1rem 3rem;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+    transition: transform 0.3s;
+}
+
+.enquiry-btn:hover {
+    transform: translateY(-3px);
+}
+
+.phone-contact {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 1.1rem;
+}
+
+.phone-contact i {
+    color: #2563eb;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .info-card {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .card-image {
+        width: 100%;
+        height: 300px;
+    }
+    
+    .card-content h3 {
+        font-size: 1.8rem;
+    }
+}
 
         /* ===== FOOTER ===== */
         footer {
@@ -890,6 +954,186 @@
     }
 }
 
+/* --- Footer Section Styles --- */
+.travel-footer {
+    /* Gradient Background: Dark Red to Dark Navy */
+    background: linear-gradient(180deg, #4a0000 0%, #050520 100%);
+    color: #ffffff;
+    padding: 60px 20px 20px;
+    font-family: 'Segoe UI', sans-serif;
+    position: relative;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr; /* 4 Columns */
+    gap: 40px;
+    padding-bottom: 40px;
+}
+
+.footer-col h3 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+/* Column 1: Contact Info */
+.contact-details p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    opacity: 0.9;
+    margin-bottom: 5px;
+}
+
+.currency-box {
+    margin-top: 20px;
+}
+
+.currency-box label {
+    display: block;
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+    opacity: 0.6;
+}
+
+.currency-select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Links (Cols 2 & 3) */
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 12px;
+}
+
+.footer-links a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: 0.3s;
+}
+
+.footer-links a:hover {
+    color: #ffaa00; /* Hover color */
+    padding-left: 5px;
+}
+
+/* Social Icons */
+.footer-socials {
+    display: flex;
+    gap: 10px;
+}
+
+.social-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 1.1rem;
+}
+
+/* Brand Colors on Hover */
+.social-icon.fb:hover { background: #1877F2; }
+.social-icon.x:hover { background: #000; }
+.social-icon.insta:hover { background: #E4405F; }
+.social-icon.yt:hover { background: #FF0000; }
+
+/* Divider */
+.footer-divider {
+    border: 0;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    margin-bottom: 20px;
+}
+
+/* Bottom Bar */
+.footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.payment-methods {
+    display: flex;
+    gap: 15px;
+}
+
+.payment-methods i {
+    color: white; /* Or use original colors if preferred */
+    opacity: 0.8;
+}
+
+/* Floating Buttons (Bottom Right) */
+.floating-buttons {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.float-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: 0.3s;
+}
+
+.float-btn.whatsapp {
+    background: #25D366;
+}
+
+.float-btn.scroll-top {
+    background: #0041C2;
+}
+
+.float-btn:hover {
+    transform: translateY(-3px);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 900px) {
+    .footer-container {
+        grid-template-columns: 1fr; /* Stack vertically */
+        gap: 30px;
+    }
+    
+    .footer-bottom {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -970,13 +1214,11 @@
             <div class="particle" style="--delay: 4s; --size: 3px;"></div>
         </div>
 
-        <div class="content">
+        <!-- <div class="content">
             <h4 data-content="Explore India">Explore India</h4>
-            <div class="author">
-                
-            </div>
+            <div class="author"> </div>
             <div class="model"></div>
-        </div>
+        </div> -->
     </div>
 </section>
 
@@ -1172,35 +1414,108 @@
     </div>
 </section>
 
-    <!-- CONTACT SECTION -->
-    <section class="contact" id="contact">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <form class="contact-form" id="contactForm">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" required></textarea>
-                </div>
-                <button type="submit" class="submit-btn">Send Message</button>
-                <div class="success-message" id="successMessage">
-                    ✓ Thank you! We'll get back to you soon.
-                </div>
-            </form>
+       <section class="travel-card-section" id="contact">
+    <div class="info-card">
+        <div class="card-image">
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800" alt="Beautiful Destination">
         </div>
-    </section>
 
-    <!-- FOOTER -->
-    <footer>
-        <p>&copy; 2024 ExploreIndia. All rights reserved. | Designed with ❤️ for travel enthusiasts</p>
-    </footer>
+        <div class="card-content">
+            <div class="accent-line"></div>
+            <h3>Explore India & International Destinations With <span>Travel India Tourism Pvt. Ltd</span></h3>
+            
+            <p>Our specialized holidays division is adept at fulfilling all your travel requirements, be it accommodation, flights, visas, tours, transportation, or a comprehensive package, all tailored with your interests in mind!</p>
+            
+            <p class="card-small-text">Tell us what you want and we will design it for you.</p>
+
+            <div class="card-actions">
+                <button class="enquiry-btn">Enquiry now</button>
+                <div class="phone-contact">
+                    <i class="fas fa-phone-alt"></i> 
+                    <span>+91 9011286060</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+   <footer class="travel-footer">
+    <div class="footer-container">
+        
+        <div class="footer-col">
+            <h3>Quick Contact</h3>
+            <div class="contact-details">
+                <p>Best Travel agency In Pune, Maharashtra, 411035</p>
+                <p>+91 9011286060</p>
+                <p>info@travelindiatourism.com</p>
+            </div>
+            
+            <div class="currency-box">
+                <label>Currencies</label>
+                <select class="currency-select">
+                    <option>INR</option>
+                    <option>USD</option>
+                    <option>EUR</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="footer-col">
+            <h3>Company</h3>
+            <ul class="footer-links">
+                <li><a href="#">About us</a></li>
+                <li><a href="#">Community Blog</a></li>
+                <li><a href="#">Privacy policy</a></li>
+                <li><a href="#">Terms of service</a></li>
+                <li><a href="#">Cancellation & Refund Policy</a></li>
+                <li><a href="#">Shipping & Delivery Policy</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h3>Contact</h3>
+            <ul class="footer-links">
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">Get in touch</a></li>
+                <li><a href="#">Careers</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h3>Social</h3>
+            <div class="footer-socials">
+                <a href="#" class="social-icon fb"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon x"><i class="fa-brands fa-x-twitter"></i></a> <a href="#" class="social-icon insta"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon yt"><i class="fab fa-youtube"></i></a>
+            </div>
+
+            <h3 style="margin-top: 20px;">Partner</h3>
+            <div class="partner-logo">
+                <h2 style="color:white; font-style: italic;">CONNECT<span style="color:#f59e0b">India</span></h2>
+                <p style="font-size: 10px; opacity: 0.7;">We are everywhere...</p>
+            </div>
+        </div>
+
+    </div>
+
+    <hr class="footer-divider">
+
+    <div class="footer-bottom">
+        <p>&copy; Copyright Travel India Tourism Pvt.Ltd 2023</p>
+        <div class="payment-methods">
+            <i class="fab fa-cc-visa fa-2x"></i>
+            <i class="fab fa-cc-mastercard fa-2x"></i>
+            <i class="fab fa-cc-discover fa-2x"></i>
+            <i class="fab fa-cc-paypal fa-2x"></i>
+            <i class="fab fa-cc-jcb fa-2x"></i>
+        </div>
+    </div>
+
+    <div class="floating-buttons">
+        <a href="#" class="float-btn whatsapp"><i class="fab fa-whatsapp"></i></a>
+        <a href="#home" class="float-btn scroll-top"><i class="fas fa-chevron-up"></i></a>
+    </div>
+</footer>
 
      <!-- GSAP CDN -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -1218,81 +1533,36 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 // ═══════════════════════════════════════════════════════════════
 // 🌌 CUSTOM CURSOR WITH PARTICLE TRAIL
 // ═══════════════════════════════════════════════════════════════
-
-const cursor = document.createElement('div');
-cursor.style.cssText = `
-    position: fixed; width: 20px; height: 20px; 
-    background: radial-gradient(circle, #2563eb, transparent);
-    border-radius: 50%; pointer-events: none; z-index: 10000;
-    mix-blend-mode: screen; opacity: 0;
-`;
-document.body.appendChild(cursor);
-
-const cursorFollower = document.createElement('div');
-cursorFollower.style.cssText = `
-    position: fixed; width: 40px; height: 40px; 
-    border: 2px solid #2563eb; border-radius: 50%;
-    pointer-events: none; z-index: 9999; opacity: 0;
-`;
-document.body.appendChild(cursorFollower);
-
-gsap.set([cursor, cursorFollower], { xPercent: -50, yPercent: -50 });
-
-let cursorX = 0, cursorY = 0;
-window.addEventListener('mousemove', (e) => {
-    cursorX = e.clientX;
-    cursorY = e.clientY;
-});
-
-gsap.to(cursor, {
-    duration: 0.3,
-    x: () => cursorX,
-    y: () => cursorY,
-    opacity: 1,
-    ease: "power2.out",
-    repeat: -1
-});
-
-gsap.to(cursorFollower, {
-    duration: 0.8,
-    x: () => cursorX,
-    y: () => cursorY,
-    opacity: 0.5,
-    ease: "power2.out",
-    repeat: -1
-});
-
-// Particle trail system
-const particles = [];
-const particleCount = 15;
-
-for (let i = 0; i < particleCount; i++) {
-    const particle = document.createElement('div');
-    particle.style.cssText = `
-        position: fixed; width: 4px; height: 4px;
-        background: #7c3aed; border-radius: 50%;
-        pointer-events: none; z-index: 9998; opacity: 0;
-    `;
-    document.body.appendChild(particle);
-    particles.push({ el: particle, x: 0, y: 0 });
-}
+// --- Custom Cursor Animation ---
+const cursorDot = document.querySelector('.cursor-dot');
+const cursorOutline = document.querySelector('.cursor-outline');
 
 window.addEventListener('mousemove', (e) => {
-    particles.forEach((p, i) => {
-        setTimeout(() => {
-            gsap.to(p.el, {
-                x: e.clientX,
-                y: e.clientY,
-                opacity: 0.6 - (i * 0.04),
-                duration: 0.4,
-                ease: "power2.out",
-                onComplete: () => {
-                    gsap.to(p.el, { opacity: 0, duration: 0.3 });
-                }
-            });
-        }, i * 30);
+    const posX = e.clientX;
+    const posY = e.clientY;
+
+    cursorDot.style.left = `${posX}px`;
+    cursorDot.style.top = `${posY}px`;
+
+    gsap.to(cursorOutline, {
+        x: posX,
+        y: posY,
+        duration: 0.15,
+        ease: "power2.out"
     });
 });
+
+document.querySelectorAll('a, button, .package-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+        document.body.classList.add('hovering');
+        gsap.to(cursorDot, { scale: 0, duration: 0.2 });
+    });
+    el.addEventListener('mouseleave', () => {
+        document.body.classList.remove('hovering');
+        gsap.to(cursorDot, { scale: 1, duration: 0.2 });
+    });
+});
+
 
 // ═══════════════════════════════════════════════════════════════
 // 🎭 ADVANCED PAGE LOADER WITH SPLIT REVEAL
@@ -1570,7 +1840,7 @@ navLinks.forEach(link => {
 
 gsap.utils.toArray('section').forEach((section, i) => {
     if (i === 0) return;
-    
+    if (section.id === 'destinations') return;
     // Fade + scale transition
     gsap.from(section, {
         opacity: 0,
@@ -1951,71 +2221,6 @@ columns.forEach((col, i) => {
 });       
 
 // ═══════════════════════════════════════════════════════════════
-// 📧 CONTACT - GLASS CARD WITH RIPPLE
-// ═══════════════════════════════════════════════════════════════
-
-const formTL = gsap.timeline({
-    scrollTrigger: {
-        trigger: '.contact',
-        start: 'top 70%'
-    }
-});
-
-formTL
-    .from('.contact-form', {
-        clipPath: "circle(0% at 50% 100%)",
-        opacity: 0,
-        y: 200,
-        duration: 1.5,
-        ease: "expo.out"
-    })
-    .from('.form-group', {
-        opacity: 0,
-        x: -100,
-        rotationY: -45,
-        stagger: 0.1,
-        duration: 0.8,
-        ease: "back.out(2)"
-    }, "-=0.8");
-
-// Form submission with ripple
-const contactForm = document.getElementById('contactForm');
-const successMessage = document.getElementById('successMessage');
-
-contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    gsap.to('.submit-btn', {
-        scale: 0.85,
-        duration: 0.1,
-        yoyo: true,
-        repeat: 1,
-        ease: "power2.inOut",
-        onComplete: () => {
-            successMessage.style.display = 'block';
-            gsap.from(successMessage, {
-                scale: 0,
-                rotation: 180,
-                opacity: 0,
-                duration: 0.8,
-                ease: "elastic.out(1, 0.5)"
-            });
-            
-            contactForm.reset();
-            setTimeout(() => {
-                gsap.to(successMessage, {
-                    scale: 0,
-                    opacity: 0,
-                    duration: 0.4,
-                    ease: "back.in(2)",
-                    onComplete: () => successMessage.style.display = 'none'
-                });
-            }, 3000);
-        }
-    });
-});
-
-// ═══════════════════════════════════════════════════════════════
 // 🎯 MAGNETIC BUTTONS - ULTRA ADVANCED
 // ═══════════════════════════════════════════════════════════════
 
@@ -2072,6 +2277,94 @@ document.querySelectorAll('.explore-btn, .cta-button, .submit-btn').forEach(btn 
         gsap.to(btn, { scale: 1, duration: 0.4, ease: "elastic.out(1, 0.5)" });
     });
 });
+
+// ═══════════════════════════════════════════════════════════════
+// 📞 CONTACT SECTION ANIMATION
+// ═══════════════════════════════════════════════════════════════
+
+// 1. Scroll Trigger Animation (Entry)
+const contactTL = gsap.timeline({
+    scrollTrigger: {
+        trigger: "#contact",
+        start: "top 75%", // Starts when top of section hits 75% of viewport
+        toggleActions: "play none none reverse"
+    }
+});
+
+contactTL
+    .from(".travel-card-section", {
+        backgroundColor: "#ffffff",
+        duration: 1
+    })
+    .from(".card-image", {
+        x: -100,
+        opacity: 0,
+        rotationY: 15,
+        duration: 1.2,
+        ease: "power3.out"
+    })
+    .from(".card-content > *", { // Selects h3, p, buttons directly
+        x: 50,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.15, // Stagger delays each line
+        ease: "back.out(1.7)"
+    }, "-=0.8"); // Overlaps with image animation
+
+// 2. 3D Tilt Effect on the Whole Card
+const card = document.querySelector('.info-card');
+
+if (card) {
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+        gsap.to(card, {
+            rotationY: x * 5, // Mild rotation
+            rotationX: -y * 5,
+            transformPerspective: 1000,
+            duration: 0.5,
+            ease: "power2.out"
+        });
+    });
+
+    card.addEventListener('mouseleave', () => {
+        gsap.to(card, {
+            rotationY: 0,
+            rotationX: 0,
+            duration: 0.8,
+            ease: "elastic.out(1, 0.5)"
+        });
+    });
+}
+
+// 3. Magnetic Effect specifically for the Enquiry Button
+const enquiryBtn = document.querySelector('.enquiry-btn');
+
+if (enquiryBtn) {
+    enquiryBtn.addEventListener('mousemove', (e) => {
+        const rect = enquiryBtn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+
+        gsap.to(enquiryBtn, {
+            x: x * 0.4,
+            y: y * 0.4,
+            duration: 0.3,
+            ease: "power2.out"
+        });
+    });
+
+    enquiryBtn.addEventListener('mouseleave', () => {
+        gsap.to(enquiryBtn, {
+            x: 0,
+            y: 0,
+            duration: 0.8,
+            ease: "elastic.out(1, 0.4)"
+        });
+    });
+}
 
 // ═══════════════════════════════════════════════════════════════
 // 🌟 CONTINUOUS AMBIENT EFFECTS
@@ -2164,45 +2457,6 @@ gsap.utils.toArray('img').forEach(img => {
         }
     });
 });
-     // --- Custom Cursor Animation ---
-const cursorDot = document.querySelector('.cursor-dot');
-const cursorOutline = document.querySelector('.cursor-outline');
-
-// 1. Movement Logic
-window.addEventListener('mousemove', (e) => {
-    const posX = e.clientX;
-    const posY = e.clientY;
-
-    // Dot moves instantly
-    cursorDot.style.left = `${posX}px`;
-    cursorDot.style.top = `${posY}px`;
-
-    // Outline follows with a lag (0.15s duration)
-    gsap.to(cursorOutline, {
-        x: posX,
-        y: posY,
-        duration: 0.15,
-        ease: "power2.out"
-    });
-});
-
-// 2. Hover Interaction
-const interactiveElements = document.querySelectorAll('a, button, .package-card, input, textarea');
-
-interactiveElements.forEach(el => {
-    el.addEventListener('mouseenter', () => {
-        document.body.classList.add('hovering');
-        // Optional: Hide the small dot when hovering to keep it clean
-        gsap.to(cursorDot, { scale: 0, duration: 0.2 }); 
-    });
-    
-    el.addEventListener('mouseleave', () => {
-        document.body.classList.remove('hovering');
-        // Bring the dot back
-        gsap.to(cursorDot, { scale: 1, duration: 0.2 }); 
-    });
-});
-
     </script>
 </body>
 </html> 
