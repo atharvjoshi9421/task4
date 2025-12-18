@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotels - Explore India</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* ===== CORE STYLES ===== */
+        :root {
+            --primary: #2563eb;
+            --secondary: #7c3aed;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --text: #334155;
+            --gold: #fbbf24;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--light); color: var(--text); overflow-x: hidden; }
+
+        /* Navbar Styles */
+        .navbar { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); padding: 1rem 0; }
+        .nav-container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: bold; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-menu { display: flex; gap: 2rem; list-style: none; }
+        .nav-link { text-decoration: none; color: var(--dark); font-weight: 500; transition: color 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--primary); }
+
+        /* Page Header */
+        .page-header {
+            height: 50vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1600');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            display: flex; align-items: center; justify-content: center; text-align: center;
+            margin-top: 70px; color: white;
+        }
+        .header-content h1 { font-size: 3.5rem; font-weight: 800; text-transform: uppercase; margin-bottom: 1rem; }
+
+        /* Filter Bar */
+        .filter-container {
+            max-width: 1200px; margin: -30px auto 40px; padding: 20px;
+            background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; position: relative; z-index: 10;
+        }
+        .filter-btn {
+            padding: 10px 25px; border: 1px solid #eee; background: white; color: var(--text);
+            border-radius: 30px; cursor: pointer; transition: 0.3s; font-weight: 600;
+        }
+        .filter-btn:hover, .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* Hotel Grid */
+        .hotel-grid {
+            max-width: 1400px; margin: 0 auto 5rem; padding: 0 2rem;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px;
+        }
+
+        /* Hotel Card */
+        .hotel-card {
+            background: white; border-radius: 15px; overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: 0.3s;
+            opacity: 0; transform: translateY(30px);
+            display: flex; flex-direction: column;
+        }
+        .hotel-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+
+        .hotel-img-wrapper { position: relative; height: 220px; overflow: hidden; }
+        .hotel-img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .hotel-card:hover .hotel-img-wrapper img { transform: scale(1.1); }
+        
+        .location-badge {
+            position: absolute; top: 15px; left: 15px;
+            background: rgba(0,0,0,0.7); color: white;
+            padding: 5px 12px; border-radius: 20px; font-size: 0.8rem;
+            display: flex; align-items: center; gap: 5px;
+        }
+
+        .category-badge {
+            position: absolute; top: 15px; right: 15px;
+            background: white; color: var(--primary);
+            padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;
+        }
+
+        .hotel-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        
+        .hotel-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px; }
+        .hotel-title { font-size: 1.2rem; font-weight: 700; color: var(--dark); line-height: 1.3; }
+        .star-rating { color: var(--gold); font-size: 0.8rem; white-space: nowrap; }
+
+        .hotel-features { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+        .feature-item { font-size: 0.75rem; color: #64748b; background: #f1f5f9; padding: 4px 10px; border-radius: 4px; }
+
+        .price-section { margin-top: auto; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 15px; }
+        .price-tag { font-size: 1.3rem; font-weight: 800; color: var(--primary); }
+        .price-tag span { font-size: 0.8rem; font-weight: 400; color: #999; }
+        
+        .book-btn {
+            background: var(--dark); color: white; text-decoration: none;
+            padding: 8px 20px; border-radius: 20px; font-size: 0.9rem; transition: 0.3s;
+        }
+        .book-btn:hover { background: var(--primary); }
+
+        /* Footer */
+        .travel-footer { background: linear-gradient(180deg, #4a0000 0%, #050520 100%); color: white; padding: 40px 20px; text-align: center; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2.5rem; }
+            .filter-container { gap: 10px; padding: 15px; }
+            .filter-btn { padding: 8px 15px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" style="text-decoration:none"><div class="logo">✈️ ExploreIndia</div></a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="\destinations.html" class="nav-link">Destinations</a></li>
+                <li><a href="\packages.html" class="nav-link">Packages</a></li>
+                <!-- <li><a href="hotels.html" class="nav-link active">Hotels</a></li> -->
+                <li><a href="\contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="header-content">
+            <h1>Luxury Stays</h1>
+            <p>Handpicked accommodations for your perfect holiday</p>
+        </div>
+    </header>
+
+    <div class="filter-container">
+        <button class="filter-btn active" data-filter="all">All Stays</button>
+        <button class="filter-btn" data-filter="luxury">Luxury</button>
+        <button class="filter-btn" data-filter="resort">Resorts</button>
+        <button class="filter-btn" data-filter="boutique">Boutique</button>
+        <button class="filter-btn" data-filter="homestay">Homestays</button>
+    </div>
+
+    <section class="hotel-grid" id="hotelGrid">
+
+        <div class="hotel-card" data-category="luxury" data-location="ladakh">
+            <div class="hotel-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=500" alt="Grand Dragon">
+                <div class="location-badge"><i class="fas fa-map-marker-alt"></i> Ladakh</div>
+                <div class="category-badge">Luxury</div>
+            </div>
+            <div class="hotel-content">
+                <div class="hotel-header">
+                    <div class="hotel-title">The Grand Dragon</div>
+                    <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                </div>
+                <div class="hotel-features"><span class="feature-item">Mountain View</span><span class="feature-item">Heated Floor</span><span class="feature-item">Spa</span></div>
+                <div class="price-section"><div class="price-tag">₹12,000 <span>/ night</span></div><a href="contact.html" class="book-btn">Book Now</a></div>
+            </div>
+        </div>
+
+        <div class="hotel-card" data-category="resort" data-location="ladakh">
+            <div class="hotel-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=500" alt="Lchang Nang">
+                <div class="location-badge"><i class="fas fa-map-marker-alt"></i> Ladakh (Nubra)</div>
+                <div class="category-badge">Resort</div>
+            </div>
+            <div class="hotel-content">
+                <div class="hotel-header">
+                    <div class="hotel-title">Lchang Nang Retreat</div>
+                    <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                </div>
+                <div class="hotel-features"><span class="feature-item">Eco-Friendly</span><span class="feature-item">River Side</span><span class="feature-item">Stargazing</span></div>
+                <div class="price-section"><div class="price-tag">₹10,800 <span>/ night</span></div><a href="contact.html" class="book-btn">Book Now</a></div>
+            </div>
+        </div>
+
+        <div class="hotel-card" data-category="resort" data-location="goa">
+            <div class="hotel-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?w=500" alt="Taj Exotica">
+                <div class="location-badge"><i class="fas fa-map-marker-alt"></i> Goa</div>
+                <div class="category-badge">Resort</div>
+            </div>
+            <div class="hotel-content">
+                <div class="hotel-header">
+                    <div class="hotel-title">Taj Exotica Resort</div>
+                    <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                </div>
+                <div class="hotel-features"><span class="feature-item">Private Beach</span><span class="feature-item">Pool Villa</span><span class="feature-item">Bar</span></div>
+                <div class="price-section"><div class="price-tag">₹18,500 <span>/ night</span></div><a href="contact.html" class="book-btn">Book Now</a></div>
+            </div>
+        </div>
+
+        <div class="hotel-card" data-category="boutique" data-location="goa">
+            <div class="hotel-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1512918760513-95f192972701?w=500" alt="Fort Tiracol">
+                <div class="location-badge"><i class="fas fa-map-marker-alt"></i> Goa (North)</div>
+                <div class="category-badge">Heritage</div>
+            </div>
+            <div class="hotel-content">
+                <div class="hotel-header">
+                    <div class="hotel-title">Fort Tiracol Heritage</div>
+                    <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                </div>
+                <div class="hotel-features"><span class="feature-item">17th Century Fort</span><span class="feature-item">Ocean View</span><span class="feature-item">Fine Dining</span></div>
+                <div class="price-section"><div class="price-tag">₹8,200 <span>/ night</span></div><a href="contact.html" class="book-btn">Book Now</a></div>
+            </div>
+        </div>
+
+        <div class="hotel-card" data-category="boutique" data-location="jaipur">
+            <div class="hotel-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=500" alt="Samode Haveli">
+                <div class="location-badge"><i class="fas fa-map-marker-alt"></i> Jaipur</div>
+                <div class="category-badge">Heritage</div>
+            </div>
+            <div class="hotel-content">
+                <div class="hotel-header">
+                    <div class="hotel-title">Samode Haveli</div>
+                    <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                </div>
+                <div class="hotel-features"><span class="feature-item">Royal Courtyard</span><span class="feature-item">Pool</span><span class="feature-item">History</span></div>
+                <div class="price-section"><div class="price-tag">₹9,500 <span>/ night</span></div><a href="contact.html" class="book-btn">Book Now</a></div>
+            </div>
+        </div>
+
+        <div class="hotel-card" data-category="boutique" data-location="jaipur">
+            <div class="hotel-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1590059390047-6058a06c66ee?w=500" alt="The Johri">
+                <div class="location-badge"><i class="fas fa-map-marker-alt"></i> Jaipur (Old City)</div>
+                <div class="category-badge">Boutique</div>
+            </div>
+            <div class="hotel-content">
+                <div class="hotel-header">
+                    <div class="hotel-title">The Johri Jaipur</div>
+                    <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                </div>
+                <div class="hotel-features"><span class="feature-item">Havelistyle</span><span class="feature-item">Vegetarian</span><span class="feature-item">Cocktail Bar</span></div>
+                <div class="price-section"><div class="price-tag">₹14,000 <span>/ night</span></div><a href="contact.html" class="book-btn">Book Now</a></div>
+            </div>
+        </div>
+
+        <div class="hotel-card" data-category="homestay" data-location="kerala">
+            <div class="hotel-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?w=500" alt="Emerald Isle">
+                <div class="location-badge"><i class="fas fa-map-marker-alt"></i> Alleppey</div>
+                <div class="category-badge">Homestay</div>
+            </div>
+            <div class="hotel-content">
+                <div class="hotel-header">
+                    <div class="hotel-title">Emerald Isle Heritage</div>
+                    <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                </div>
+                <div class="hotel-features"><span class="feature-item">Backwaters</span><span class="feature-item">Home Cooked Food</span><span class="feature-item">Canoe</span></div>
+                <div class="price-section"><div class="price-tag">₹4,500 <span>/ night</span></div><a href="contact.html" class="book-btn">Book Now</a></div>
+            </div>
+        </div>
+
+        <div class="hotel-card" data-category="resort" data-location="kerala">
+            <div class="hotel-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1612456485002-364e5288285e?w=500" alt="Lake Resort">
+                <div class="location-badge"><i class="fas fa-map-marker-alt"></i> Alleppey</div>
+                <div class="category-badge">Resort</div>
+            </div>
+            <div class="hotel-content">
+                <div class="hotel-header">
+                    <div class="hotel-title">Malayalam Lake Resort</div>
+                    <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                </div>
+                <div class="hotel-features"><span class="feature-item">Ayurveda Spa</span><span class="feature-item">Lake Front</span><span class="feature-item">Peaceful</span></div>
+                <div class="price-section"><div class="price-tag">₹2,200 <span>/ night</span></div><a href="contact.html" class="book-btn">Book Now</a></div>
+            </div>
+        </div>
+
+        <div class="hotel-card" data-category="resort" data-location="manali">
+            <div class="hotel-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1601918774757-6e61b2a77054?w=500" alt="Span Resort">
+                <div class="location-badge"><i class="fas fa-map-marker-alt"></i> Manali</div>
+                <div class="category-badge">Resort</div>
+            </div>
+            <div class="hotel-content">
+                <div class="hotel-header">
+                    <div class="hotel-title">Span Resort & Spa</div>
+                    <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                </div>
+                <div class="hotel-features"><span class="feature-item">River Side</span><span class="feature-item">Luxury Spa</span><span class="feature-item">Bonfire</span></div>
+                <div class="price-section"><div class="price-tag">₹14,000 <span>/ night</span></div><a href="contact.html" class="book-btn">Book Now</a></div>
+            </div>
+        </div>
+
+        <div class="hotel-card" data-category="boutique" data-location="manali">
+            <div class="hotel-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1504624720567-64a41aa25d70?w=500" alt="The Ghar">
+                <div class="location-badge"><i class="fas fa-map-marker-alt"></i> Manali</div>
+                <div class="category-badge">Boutique</div>
+            </div>
+            <div class="hotel-content">
+                <div class="hotel-header">
+                    <div class="hotel-title">The Ghar</div>
+                    <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                </div>
+                <div class="hotel-features"><span class="feature-item">Mountain View</span><span class="feature-item">Cozy Vibe</span><span class="feature-item">Cafe</span></div>
+                <div class="price-section"><div class="price-tag">₹4,600 <span>/ night</span></div><a href="contact.html" class="book-btn">Book Now</a></div>
+            </div>
+        </div>
+
+        <div class="hotel-card" data-category="luxury" data-location="udaipur">
+            <div class="hotel-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1596436889106-be35e843f974?w=500" alt="Udaivilas">
+                <div class="location-badge"><i class="fas fa-map-marker-alt"></i> Udaipur</div>
+                <div class="category-badge">Luxury</div>
+            </div>
+            <div class="hotel-content">
+                <div class="hotel-header">
+                    <div class="hotel-title">The Oberoi Udaivilas</div>
+                    <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                </div>
+                <div class="hotel-features"><span class="feature-item">Lake Pichola View</span><span class="feature-item">Butler</span><span class="feature-item">Royalty</span></div>
+                <div class="price-section"><div class="price-tag">₹35,000 <span>/ night</span></div><a href="contact.html" class="book-btn">Book Now</a></div>
+            </div>
+        </div>
+
+        <div class="hotel-card" data-category="boutique" data-location="udaipur">
+            <div class="hotel-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?w=500" alt="Fateh Garh">
+                <div class="location-badge"><i class="fas fa-map-marker-alt"></i> Udaipur</div>
+                <div class="category-badge">Heritage</div>
+            </div>
+            <div class="hotel-content">
+                <div class="hotel-header">
+                    <div class="hotel-title">Fateh Garh Resort</div>
+                    <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                </div>
+                <div class="hotel-features"><span class="feature-item">Hilltop View</span><span class="feature-item">Vintage Cars</span><span class="feature-item">Infinity Pool</span></div>
+                <div class="price-section"><div class="price-tag">₹11,400 <span>/ night</span></div><a href="contact.html" class="book-btn">Book Now</a></div>
+            </div>
+        </div>
+
+        <div class="hotel-card" data-category="resort" data-location="andaman">
+            <div class="hotel-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=500" alt="Taj Exotica Andaman">
+                <div class="location-badge"><i class="fas fa-map-marker-alt"></i> Havelock</div>
+                <div class="category-badge">Resort</div>
+            </div>
+            <div class="hotel-content">
+                <div class="hotel-header">
+                    <div class="hotel-title">Taj Exotica Andaman</div>
+                    <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                </div>
+                <div class="hotel-features"><span class="feature-item">Radhanagar Beach</span><span class="feature-item">Private Villa</span><span class="feature-item">Luxury</span></div>
+                <div class="price-section"><div class="price-tag">₹28,000 <span>/ night</span></div><a href="contact.html" class="book-btn">Book Now</a></div>
+            </div>
+        </div>
+
+        <div class="hotel-card" data-category="resort" data-location="andaman">
+            <div class="hotel-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=500" alt="Munjoh">
+                <div class="location-badge"><i class="fas fa-map-marker-alt"></i> Havelock</div>
+                <div class="category-badge">Luxury</div>
+            </div>
+            <div class="hotel-content">
+                <div class="hotel-header">
+                    <div class="hotel-title">Munjoh Ocean Resort</div>
+                    <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                </div>
+                <div class="hotel-features"><span class="feature-item">Private Beach</span><span class="feature-item">Scuba Diving</span><span class="feature-item">Tropical</span></div>
+                <div class="price-section"><div class="price-tag">₹16,900 <span>/ night</span></div><a href="contact.html" class="book-btn">Book Now</a></div>
+            </div>
+        </div>
+
+        <div class="hotel-card" data-category="homestay" data-location="shillong">
+            <div class="hotel-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=500" alt="Pine Hill">
+                <div class="location-badge"><i class="fas fa-map-marker-alt"></i> Shillong</div>
+                <div class="category-badge">Homestay</div>
+            </div>
+            <div class="hotel-content">
+                <div class="hotel-header">
+                    <div class="hotel-title">Pine Hill Homestay</div>
+                    <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                </div>
+                <div class="hotel-features"><span class="feature-item">Mountain View</span><span class="feature-item">Bonfire</span><span class="feature-item">Nature Walk</span></div>
+                <div class="price-section"><div class="price-tag">₹3,500 <span>/ night</span></div><a href="contact.html" class="book-btn">Book Now</a></div>
+            </div>
+        </div>
+
+        <div class="hotel-card" data-category="resort" data-location="shillong">
+            <div class="hotel-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1618245318763-a15156d6b23c?w=500" alt="Ri Kynjai">
+                <div class="location-badge"><i class="fas fa-map-marker-alt"></i> Umiam Lake</div>
+                <div class="category-badge">Resort</div>
+            </div>
+            <div class="hotel-content">
+                <div class="hotel-header">
+                    <div class="hotel-title">Ri Kynjai Resort</div>
+                    <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                </div>
+                <div class="hotel-features"><span class="feature-item">Lake View</span><span class="feature-item">Khasi Architecture</span><span class="feature-item">Spa</span></div>
+                <div class="price-section"><div class="price-tag">₹15,000 <span>/ night</span></div><a href="contact.html" class="book-btn">Book Now</a></div>
+            </div>
+        </div>
+
+        <div class="hotel-card" data-category="luxury" data-location="hampi">
+            <div class="hotel-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1560662105-57f8ad6ae2d1?w=500" alt="Evolve Back">
+                <div class="location-badge"><i class="fas fa-map-marker-alt"></i> Hampi</div>
+                <div class="category-badge">Luxury</div>
+            </div>
+            <div class="hotel-content">
+                <div class="hotel-header">
+                    <div class="hotel-title">Evolve Back Kamalapura</div>
+                    <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                </div>
+                <div class="hotel-features"><span class="feature-item">Palace Style</span><span class="feature-item">Museum</span><span class="feature-item">Private Pool</span></div>
+                <div class="price-section"><div class="price-tag">₹28,000 <span>/ night</span></div><a href="contact.html" class="book-btn">Book Now</a></div>
+            </div>
+        </div>
+
+         <div class="hotel-card" data-category="resort" data-location="hampi">
+            <div class="hotel-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1551918120-9739cb7471c7?w=500" alt="Hampi Feathers">
+                <div class="location-badge"><i class="fas fa-map-marker-alt"></i> Hampi</div>
+                <div class="category-badge">Resort</div>
+            </div>
+            <div class="hotel-content">
+                <div class="hotel-header">
+                    <div class="hotel-title">Hampi's Feathers Resort</div>
+                    <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                </div>
+                <div class="hotel-features"><span class="feature-item">Nature Stay</span><span class="feature-item">Bird Watching</span><span class="feature-item">Pool</span></div>
+                <div class="price-section"><div class="price-tag">₹12,400 <span>/ night</span></div><a href="contact.html" class="book-btn">Book Now</a></div>
+            </div>
+        </div>
+
+    </section>
+
+    <footer class="travel-footer">
+        <p>&copy; 2023 Travel India Tourism Pvt.Ltd</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        // Entry Animation
+        gsap.to(".hotel-card", {
+            y: 0, opacity: 1, stagger: 0.1, duration: 0.8, ease: "power2.out", delay: 0.2
+        });
+
+        // Filtering Logic
+        const btns = document.querySelectorAll('.filter-btn');
+        const cards = document.querySelectorAll('.hotel-card');
+
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Toggle active class
+                btns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filterVal = btn.getAttribute('data-filter');
+
+                cards.forEach(card => {
+                    const cardCat = card.getAttribute('data-category');
+                    
+                    if (filterVal === 'all' || filterVal === cardCat) {
+                        card.style.display = 'flex';
+                        gsap.to(card, { opacity: 1, scale: 1, duration: 0.4 });
+                    } else {
+                        gsap.to(card, { 
+                            opacity: 0, scale: 0.8, duration: 0.4, 
+                            onComplete: () => { card.style.display = 'none'; } 
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

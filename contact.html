@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- General Reset & Typography --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4; /* Light grey background */
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Center vertically if screen is tall */
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+           /* ===== NAVBAR STYLES ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+      
+
+        /* --- Main Layout Container --- */
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap; /* Allows stacking on mobile */
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* --- Shared Card Styles --- */
+        .card {
+            background: #ffffff;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-radius: 4px;
+            flex: 1; /* Both sides take equal width */
+            min-width: 320px; /* Minimum width before stacking */
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        /* --- Left Side: Contact Info --- */
+        .contact-info h2 {
+            text-align: left;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+
+        .icon-circle {
+            background-color: #e0e0e0;
+            min-width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .icon-circle i {
+            color: #6dae25; /* The specific green color */
+            font-size: 18px;
+        }
+
+        .info-text {
+            color: #777;
+            font-size: 15px;
+            line-height: 1.6;
+            padding-top: 10px; /* Align with icon center */
+        }
+
+        /* Map Styling */
+        .map-wrapper {
+            width: 100%;
+            height: 250px;
+            margin-top: 20px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* --- Right Side: Form --- */
+        .contact-form h2 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        /* Input Styling (Underline only style) */
+        input, textarea {
+            width: 100%;
+            padding: 10px 0;
+            border: none;
+            border-bottom: 1px solid #ddd;
+            background: transparent;
+            outline: none;
+            font-size: 15px;
+            color: #555;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            border-bottom: 1px solid #6dae25;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            background-color: #6dae25; /* Green color */
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 25px; /* Pill shape */
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #5c9420;
+        }
+
+        /* --- Responsive Tweaks --- */
+        @media (max-width: 768px) {
+            .contact-container {
+                flex-direction: column;
+            }
+            .card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+       <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" style="text-decoration:none"><div class="logo">✈️ ExploreIndia</div></a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="destinations.html" class="nav-link active">Destinations</a></li>
+                <li><a href="\package.html" class="nav-link">Packages</a></li>
+                 <li><a href="\hotel.html" class="nav-link active">Hotels</a></li>
+                <!-- <li><a href="\contact.html" class="nav-link">Contact</a></li> -->
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="contact-container">
+        
+        <div class="card contact-info">
+            <h2>Corporate Office Address</h2>
+
+            <div class="info-item">
+                <div class="icon-circle">
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div class="info-text">
+                    rivierafoods2021@gmail.com
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="icon-circle">
+                    <i class="fa-solid fa-phone"></i>
+                </div>
+                <div class="info-text">
+                    +91 9823585850
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="icon-circle">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div class="info-text">
+                    S no 41, Naidu House, Tempo Chowk, behind Jain Mandir, Anand Park, Wadgaon Sheri, Pune, Maharashtra 411014
+                </div>
+            </div>
+
+            <div class="map-wrapper">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.121169988876!2d73.9298!3d18.5685!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c147b8b3a3bf%3A0x6f7fdcc8e4d6c77e!2sWadgaon%20Sheri%2C%20Pune%2C%20Maharashtra%2C%20India!5e0!3m2!1sen!2sus!4v1689000000000!5m2!1sen!2sus" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+
+        <div class="card contact-form">
+            <h2>Drop Us A Line</h2>
+            <form id="contactForm">
+                
+                <div class="form-group">
+                    <input type="text" id="fullname" placeholder="Full Name *" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="Email Address *" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" id="subject" placeholder="Subject">
+                </div>
+
+                <div class="form-group">
+                    <textarea id="message" placeholder="Your Message here"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+
+    </div>
+
+    <script>
+        // Simple JavaScript to handle the form submission visually
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevents the page from refreshing
+            
+            // Get values
+            const name = document.getElementById('fullname').value;
+            const email = document.getElementById('email').value;
+
+            if(name && email) {
+                alert(`Thank you, ${name}! We have received your message.`);
+                // Reset form
+                this.reset();
+            } else {
+                alert("Please fill in the required fields.");
+            }
+        });
+    </script>
+
+</body>
+</html>

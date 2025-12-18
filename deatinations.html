@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinations - Explore India</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* ===== CORE STYLES ===== */
+        :root { --primary: #2563eb; --secondary: #7c3aed; --dark: #1e293b; --light: #f8fafc; --text: #334155; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--light); color: var(--text); overflow-x: hidden; }
+
+        /* Navbar & Footer (Identical to Index) */
+        .navbar { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); padding: 1rem 0; }
+        .nav-container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: bold; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-menu { display: flex; gap: 2rem; list-style: none; }
+        .nav-link { text-decoration: none; color: var(--dark); font-weight: 500; transition: color 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--primary); }
+
+        /* Hero Header */
+        .page-header {
+            height: 60vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1532664189809-02133fee698d?w=1600');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            display: flex; align-items: center; justify-content: center; text-align: center;
+            margin-top: 70px; color: white;
+        }
+        .header-content h1 { font-size: 4rem; margin-bottom: 1rem; font-weight: 800; text-transform: uppercase; }
+
+        /* Filter Section */
+        .filter-section { padding: 3rem 2rem 1rem; text-align: center; }
+        .filter-btns { display: inline-flex; gap: 15px; background: white; padding: 10px; border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .filter-btn { padding: 10px 25px; border: none; background: transparent; color: var(--text); font-weight: 600; cursor: pointer; border-radius: 30px; transition: 0.3s; }
+        .filter-btn.active, .filter-btn:hover { background: var(--primary); color: white; }
+
+        /* Grid */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; max-width: 1400px; margin: 2rem auto 5rem; padding: 0 2rem; }
+        .dest-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.4s; cursor: pointer; opacity: 0; transform: translateY(30px); }
+        .dest-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        .dest-img-box { height: 250px; position: relative; overflow: hidden; }
+        .dest-img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+        .dest-card:hover img { transform: scale(1.1); }
+        .category-tag { position: absolute; top: 15px; right: 15px; background: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; color: var(--primary); }
+        .dest-content { padding: 1.5rem; }
+        .dest-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 15px; margin-top: 15px; }
+        .view-btn { text-decoration: none; color: var(--dark); font-weight: 600; }
+        
+        /* Footer */
+        .travel-footer { background: linear-gradient(180deg, #4a0000 0%, #050520 100%); color: white; padding: 60px 20px 20px; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" style="text-decoration:none"><div class="logo">✈️ ExploreIndia</div></a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <!-- <li><a href="destinations.html" class="nav-link active">Destinations</a></li> -->
+                <li><a href="\package.html" class="nav-link">Packages</a></li>
+                 <li><a href="\hotel.html" class="nav-link active">Hotels</a></li>
+                <li><a href="\contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="header-content">
+            <h1>Top Destinations</h1>
+            <p>Explore the hidden gems and popular spots of Incredible India</p>
+        </div>
+    </header>
+
+    <section class="filter-section">
+        <div class="filter-btns">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="mountains">Mountains</button>
+            <button class="filter-btn" data-filter="beach">Beaches</button>
+            <button class="filter-btn" data-filter="heritage">Heritage</button>
+            <button class="filter-btn" data-filter="nature">Nature</button>
+        </div>
+    </section>
+
+    <section class="grid-container" id="destGrid">
+        
+        <div class="dest-card" data-category="mountains">
+            <div class="dest-img-box"><img src="https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?w=500"><span class="category-tag">Mountains</span></div>
+            <div class="dest-content">
+                <h3>Ladakh</h3>
+                <p style="color:#777; font-size:0.9rem; margin-top:5px;">Land of high passes and blue lakes.</p>
+                <div class="dest-footer"><span>4.9 ⭐</span><a href="packages.html" class="view-btn">View Packages →</a></div>
+            </div>
+        </div>
+
+        <div class="dest-card" data-category="beach">
+            <div class="dest-img-box"><img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=500"><span class="category-tag">Beach</span></div>
+            <div class="dest-content">
+                <h3>Goa</h3>
+                <p style="color:#777; font-size:0.9rem; margin-top:5px;">Sun, sand, and vibrant nightlife.</p>
+                <div class="dest-footer"><span>4.8 ⭐</span><a href="packages.html" class="view-btn">View Packages →</a></div>
+            </div>
+        </div>
+
+        <div class="dest-card" data-category="heritage">
+            <div class="dest-img-box"><img src="https://images.unsplash.com/photo-1477587458883-47145ed94245?w=500"><span class="category-tag">Heritage</span></div>
+            <div class="dest-content">
+                <h3>Jaipur</h3>
+                <p style="color:#777; font-size:0.9rem; margin-top:5px;">The Pink City of forts and palaces.</p>
+                <div class="dest-footer"><span>4.7 ⭐</span><a href="packages.html" class="view-btn">View Packages →</a></div>
+            </div>
+        </div>
+
+        <div class="dest-card" data-category="nature">
+            <div class="dest-img-box"><img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=500"><span class="category-tag">Nature</span></div>
+            <div class="dest-content">
+                <h3>Kerala (Alleppey)</h3>
+                <p style="color:#777; font-size:0.9rem; margin-top:5px;">Serene backwaters and houseboats.</p>
+                <div class="dest-footer"><span>4.9 ⭐</span><a href="packages.html" class="view-btn">View Packages →</a></div>
+            </div>
+        </div>
+
+        <div class="dest-card" data-category="heritage">
+            <div class="dest-img-box"><img src="https://images.unsplash.com/photo-1561361513-35bdcd2550bb?w=500"><span class="category-tag">Heritage</span></div>
+            <div class="dest-content">
+                <h3>Varanasi</h3>
+                <p style="color:#777; font-size:0.9rem; margin-top:5px;">The spiritual capital of India.</p>
+                <div class="dest-footer"><span>4.6 ⭐</span><a href="packages.html" class="view-btn">View Packages →</a></div>
+            </div>
+        </div>
+
+        <div class="dest-card" data-category="mountains">
+            <div class="dest-img-box"><img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=500"><span class="category-tag">Mountains</span></div>
+            <div class="dest-content">
+                <h3>Manali</h3>
+                <p style="color:#777; font-size:0.9rem; margin-top:5px;">Snow-capped peaks and pine forests.</p>
+                <div class="dest-footer"><span>4.8 ⭐</span><a href="packages.html" class="view-btn">View Packages →</a></div>
+            </div>
+        </div>
+
+        <div class="dest-card" data-category="beach">
+            <div class="dest-img-box"><img src="https://images.unsplash.com/photo-1589330273594-fade1ee91647?w=500"><span class="category-tag">Beach</span></div>
+            <div class="dest-content">
+                <h3>Andaman</h3>
+                <p style="color:#777; font-size:0.9rem; margin-top:5px;">Turquoise waters and coral reefs.</p>
+                <div class="dest-footer"><span>5.0 ⭐</span><a href="packages.html" class="view-btn">View Packages →</a></div>
+            </div>
+        </div>
+
+        <div class="dest-card" data-category="nature">
+            <div class="dest-img-box"><img src="https://images.unsplash.com/photo-1622308644420-a94bb8a23fa7?w=500"><span class="category-tag">Nature</span></div>
+            <div class="dest-content">
+                <h3>Meghalaya</h3>
+                <p style="color:#777; font-size:0.9rem; margin-top:5px;">Living root bridges and waterfalls.</p>
+                <div class="dest-footer"><span>4.8 ⭐</span><a href="packages.html" class="view-btn">View Packages →</a></div>
+            </div>
+        </div>
+
+        <div class="dest-card" data-category="heritage">
+            <div class="dest-img-box"><img src="https://images.unsplash.com/photo-1620766182966-c6eb5ed2b788?w=500"><span class="category-tag">Heritage</span></div>
+            <div class="dest-content">
+                <h3>Hampi</h3>
+                <p style="color:#777; font-size:0.9rem; margin-top:5px;">Ancient ruins and stone chariots.</p>
+                <div class="dest-footer"><span>4.7 ⭐</span><a href="packages.html" class="view-btn">View Packages →</a></div>
+            </div>
+        </div>
+
+    </section>
+
+    <footer class="travel-footer">
+        <p>&copy; 2023 Travel India Tourism Pvt.Ltd</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        // Animate Cards Entry
+        gsap.to(".dest-card", {
+            y: 0, opacity: 1, stagger: 0.1, duration: 0.8, ease: "power2.out",
+            delay: 0.2
+        });
+
+        // Simple Filter Logic
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const val = btn.getAttribute('data-filter');
+                document.querySelectorAll('.dest-card').forEach(card => {
+                    if(val === 'all' || card.getAttribute('data-category') === val) {
+                        card.style.display = 'block';
+                        gsap.to(card, {opacity: 1, scale: 1, duration: 0.4});
+                    } else {
+                        gsap.to(card, {opacity: 0, scale: 0.8, duration: 0.4, onComplete: () => card.style.display = 'none'});
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
